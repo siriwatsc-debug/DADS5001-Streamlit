@@ -36,9 +36,9 @@ if st.checkbox('Show raw data'):
 st.subheader('Map of Starbuck')
 
 # ====================================================================
-# ส่วนที่ 1: แผนที่แสดงตำแหน่งร้าน (Map Visualization)
+# Part 1 : (Map Visualization)
 # ====================================================================
-st.header("1. การกระจายตัวของร้านค้าทั่วโลก")
+st.header("1. World Wide branches and retail")
 
 # จัดการข้อมูลที่ไม่มีค่า Latitude/Longitude สำหรับการแสดงผลบนแผนที่
 map_data = data.dropna(subset=['lat', 'lon'])
@@ -50,9 +50,9 @@ st.markdown("---")
 
 
 # ====================================================================
-# ส่วนที่ 2: Top 10 ประเทศที่มีจำนวนร้านมากที่สุด (Bar Chart)
+# Part 2 : Top 10 ประเทศที่มีจำนวนร้านมากที่สุด (Bar Chart)
 # ====================================================================
-st.header("2. Top 10 ประเทศที่มีจำนวนร้านมากที่สุด")
+st.header("2. Top 10 countries with highest branches")
 
 # คำนวณจำนวนร้านต่อประเทศ
 country_counts = data['country'].value_counts().reset_index()
@@ -62,13 +62,13 @@ top_10_countries = country_counts.head(10)
 # สร้าง Bar Chart ด้วย Altair
 chart_countries = alt.Chart(top_10_countries).mark_bar().encode(
     # เรียงลำดับจากมากไปน้อย
-    x=alt.X('Store Count', title='จำนวนร้าน'),
-    y=alt.Y('Country', sort='-x', title='ประเทศ'),
+    x=alt.X('Store Count', title='branch'),
+    y=alt.Y('Country', sort='-x', title='Country'),
     tooltip=['Country', 'Store Count'],
     # ใส่สีตาม Store Count
     color=alt.Color('Store Count', scale=alt.Scale(range='ramp')),
 ).properties(
-    title='จำนวนร้าน Starbucks ต่อประเทศ (10 อันดับแรก)'
+    title='Number of Starbucks / Country (Top 10)'
 ).interactive() # ทำให้กราฟซูม/แพนได้
 
 st.altair_chart(chart_countries, use_container_width=True)
@@ -78,9 +78,9 @@ st.markdown("---")
 
 
 # ====================================================================
-# ส่วนที่ 3: สัดส่วนประเภทความเป็นเจ้าของ (Donut Chart)
+# Part 3 : สัดส่วนประเภทความเป็นเจ้าของ (Donut Chart)
 # ====================================================================
-st.header("3. สัดส่วนประเภทความเป็นเจ้าของร้าน")
+st.header("3. Type of Ownership ")
 
 # คำนวณสัดส่วน (คอลัมน์ 'ownership type' เป็นตัวพิมพ์เล็กจากการทำความสะอาดข้อมูล)
 ownership_counts = data['ownership type'].value_counts().reset_index()
@@ -101,7 +101,7 @@ pie = base.mark_arc(outerRadius=120, innerRadius=80).encode( # กำหนด i
     # แก้ไขการแสดงผล Tooltip สำหรับ Percentage: ใช้ format เพื่อแสดงทศนิยม 1 ตำแหน่ง
     tooltip=["Ownership Type", "Count", alt.Tooltip('Percentage', format='.1f')]
 ).properties(
-    title='ประเภทความเป็นเจ้าของร้านค้า'
+    title='Type of ownership'
 )
 # ข้อความแสดงเปอร์เซ็นต์
 text = base.mark_text(radius=140).encode(
