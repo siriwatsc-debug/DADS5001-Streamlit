@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import altair as alt
 
-st.title('Starbucks 1 Store Directory App ☕')
+st.title('Starbucks Store Directory App ☕')
 
 # Raw file from Github #
 DATA_URL = ('https://github.com/siriwatsc-debug/DADS5001-Streamlit/raw/main/directory.csv')
